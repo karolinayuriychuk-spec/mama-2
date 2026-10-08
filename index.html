@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для Найкращої Мами 💜</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&family=Sacramento&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent-lavender: #ddd6fe;
+            --accent-violet: #c4b5fd;
+            --accent-purple: #a78bfa;
+            --accent-deep: #8b5cf6;
+            --accent-soft: #f5f3ff;
+            --text-main: #4c1d95;
+            --text-soft: #6d28d9;
+        }
+
+        html, body { margin: 0; padding: 0; min-height: 100%; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(196, 181, 253, 0.55), transparent 45%),
+                radial-gradient(circle at 85% 15%, rgba(221, 214, 254, 0.6), transparent 50%),
+                radial-gradient(circle at 50% 95%, rgba(167, 139, 250, 0.45), transparent 55%),
+                linear-gradient(135deg, #f5f3ff 0%, #ede9fe 35%, #e9d5ff 70%, #f3e8ff 100%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .font-serif-title { font-family: 'Playfair Display', serif; }
+        .font-script { font-family: 'Sacramento', cursive; }
+
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.85) 0%, transparent 45%),
+                radial-gradient(circle at 70% 75%, rgba(221, 214, 254, 0.7) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: bgPulse 6s ease-in-out infinite;
+        }
+        @keyframes bgPulse {
+            0%, 100% { opacity: 0.75; filter: brightness(1); }
+            50%      { opacity: 1;    filter: brightness(1.15); }
+        }
+
+        .bg-twinkle {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(196, 181, 253, 0.55) 0%, transparent 25%),
+                radial-gradient(circle at 80% 60%, rgba(221, 214, 254, 0.55) 0%, transparent 25%),
+                radial-gradient(circle at 45% 85%, rgba(167, 139, 250, 0.45) 0%, transparent 25%);
+            animation: bgTwinkle 4.5s ease-in-out infinite alternate;
+        }
+        @keyframes bgTwinkle {
+            0%   { opacity: 0.35; transform: scale(1); }
+            50%  { opacity: 0.9;  transform: scale(1.04); }
+            100% { opacity: 0.5;  transform: scale(1); }
+        }
+
+        #bubbleCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .step-container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .step-hidden {
+            display: none !important;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .glass-box {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(196, 181, 253, 0.55);
+            box-shadow:
+                0 15px 35px rgba(167, 139, 250, 0.25),
+                0 0 40px rgba(221, 214, 254, 0.35);
+            border-radius: 2rem;
+        }
+
+        .btn-romantic {
+            background: linear-gradient(135deg, #a78bfa, #8b5cf6 50%, #7c3aed);
+            border: none;
+            color: #ffffff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.05em;
+            box-shadow: 0 8px 22px rgba(139, 92, 246, 0.4);
+            font-weight: 600;
+        }
+        .btn-romantic:hover {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed 50%, #6d28d9);
+            box-shadow: 0 12px 32px rgba(139, 92, 246, 0.55);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline-violet {
+            background: rgba(255, 255, 255, 0.65);
+            border: 1.5px solid rgba(139, 92, 246, 0.55);
+            color: #6d28d9;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-violet:hover {
+            background: rgba(237, 233, 254, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.25);
+        }
+
+        @keyframes floatGift {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+        .gift-box-anim { animation: floatGift 3s ease-in-out infinite; }
+
+        /* ТАЙМЕР */
+        .timer-plain {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1.25rem;
+            max-width: 640px;
+            margin: 0 auto 2.5rem;
+        }
+        .timer-item { text-align: center; position: relative; }
+        .timer-number {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            line-height: 1;
+            color: #6d28d9;
+            text-shadow:
+                0 0 18px rgba(167, 139, 250, 0.55),
+                0 0 40px rgba(196, 181, 253, 0.45);
+            display: block;
+            animation: timerGlow 3s ease-in-out infinite;
+        }
+        @keyframes timerGlow {
+            0%, 100% { text-shadow: 0 0 18px rgba(167,139,250,0.45), 0 0 40px rgba(196,181,253,0.35); }
+            50%      { text-shadow: 0 0 26px rgba(167,139,250,0.75), 0 0 55px rgba(196,181,253,0.6); }
+        }
+        .timer-label {
+            display: block;
+            margin-top: 0.4rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #7c3aed;
+            font-weight: 600;
+            opacity: 0.85;
+        }
+        .timer-item::after {
+            content: "";
+            display: block;
+            margin: 0.5rem auto 0;
+            width: 32px; height: 3px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, transparent, #a78bfa, transparent);
+            opacity: 0.8;
+        }
+
+        /* КОНВЕРТИ */
+        .envelope-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        @media (min-width: 640px) {
+            .envelope-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+        }
+        @media (min-width: 900px) {
+            .envelope-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+        }
+
+        .envelope {
+            position: relative;
+            background: linear-gradient(160deg, #faf5ff 0%, #ede9fe 45%, #ddd6fe 100%);
+            border-radius: 1rem;
+            border: 1.5px solid rgba(167, 139, 250, 0.45);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.18);
+            padding: 1.25rem 0.75rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            overflow: hidden;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 55%;
+            background: linear-gradient(180deg, rgba(196, 181, 253, 0.35), transparent);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            pointer-events: none;
+            transition: transform 0.4s ease;
+            transform-origin: top;
+        }
+        .envelope:hover {
+            transform: translateY(-6px) rotate(-1deg);
+            box-shadow: 0 14px 30px rgba(139, 92, 246, 0.4);
+            background: linear-gradient(160deg, #f5f3ff 0%, #e9d5ff 45%, #c4b5fd 100%);
+        }
+        .envelope:hover::before { transform: scaleY(0.85) translateY(-4px); }
+        .envelope.opened {
+            background: linear-gradient(160deg, #a78bfa 0%, #8b5cf6 100%);
+            color: #ffffff;
+        }
+        .envelope.opened::before { opacity: 0.3; }
+
+        .envelope-num {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #6d28d9;
+            line-height: 1;
+            position: relative;
+            z-index: 2;
+        }
+        .envelope.opened .envelope-num { color: #ffffff; }
+
+        .envelope-icon {
+            font-size: 1.6rem;
+            color: #8b5cf6;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.4s ease;
+        }
+        .envelope:hover .envelope-icon { transform: scale(1.15) rotate(-6deg); }
+        .envelope.opened .envelope-icon { color: #ffffff; }
+
+        .envelope-text {
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #7c3aed;
+            opacity: 0.8;
+            position: relative;
+            z-index: 2;
+            font-weight: 600;
+        }
+        .envelope.opened .envelope-text { color: rgba(255,255,255,0.9); }
+
+        /* МОДАЛЬНЕ ВІКНО КОНВЕРТА */
+        .envelope-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(76, 29, 149, 0.55);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .envelope-modal.active { opacity: 1; pointer-events: auto; }
+
+        .envelope-modal-card {
+            background: linear-gradient(160deg, #ffffff 0%, #f5f3ff 55%, #ede9fe 100%);
+            border-radius: 1.75rem;
+            border: 2px solid rgba(167, 139, 250, 0.5);
+            box-shadow: 0 25px 60px rgba(76, 29, 149, 0.35);
+            max-width: 480px;
+            width: 100%;
+            padding: 2rem 1.75rem;
+            text-align: center;
+            position: relative;
+            transform: scale(0.85) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .envelope-modal.active .envelope-modal-card { transform: scale(1) translateY(0); }
+
+        .envelope-modal-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #a78bfa, #7c3aed);
+            color: #ffffff;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 22px rgba(139, 92, 246, 0.4);
+        }
+
+        .envelope-modal-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #6d28d9;
+            margin-bottom: 1rem;
+        }
+
+        .envelope-modal-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4c1d95;
+            margin-bottom: 1.75rem;
+        }
+
+        [contenteditable]:focus { background: #faf5ff; outline: none; }
+
+        .typing-cursor::after {
+            content: "▍";
+            display: inline-block;
+            color: #8b5cf6;
+            margin-left: 2px;
+            animation: blinkCursor 0.7s steps(1) infinite;
+            font-weight: 400;
+        }
+        @keyframes blinkCursor {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f3ff; }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(167, 139, 250, 0.5);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(139, 92, 246, 0.8); }
+
+        .text-violet-main { color: #6d28d9; }
+        .text-violet-soft { color: #7c3aed; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+    <div class="bg-twinkle"></div>
+    <canvas id="bubbleCanvas"></canvas>
+
+    <!-- Музика -->
+    <div class="fixed top-5 right-5 z-50">
+        <button onclick="toggleAudio()" id="audioBtn" class="flex items-center gap-2 px-4 py-2 bg-white/70 hover:bg-white border border-violet-300 rounded-full text-xs font-medium text-violet-700 backdrop-blur-md transition shadow-lg">
+            <i class="fas fa-music text-violet-500" id="audioIcon"></i>
+            <span id="audioText">Музика</span>
+        </button>
+    </div>
+
+    <audio id="bgMusic" loop src="mama-song.mp3"></audio>
+
+    <!-- КРОК 1: ТАЙМЕР -->
+    <div id="step1" class="step-container">
+        <div class="glass-box p-8 sm:p-12 max-w-2xl w-full text-center relative overflow-hidden">
+            <div class="text-5xl mb-4">💜</div>
+            <div class="text-xs uppercase tracking-widest text-violet-soft mb-2 font-semibold">✨ Відліковуємо миті ✨</div>
+            <h1 class="font-serif-title text-3xl sm:text-5xl font-bold text-violet-main mb-4">
+                Свято найдорожчої людини
+            </h1>
+            <p class="text-xs sm:text-sm text-violet-soft mb-8 italic opacity-80">
+                Особливий день для найдорожчої мами вже зовсім поруч...
+            </p>
+
+            <div class="timer-plain">
+                <div class="timer-item">
+                    <span id="days" class="timer-number">00</span>
+                    <span class="timer-label">Днів</span>
+                </div>
+                <div class="timer-item">
+                    <span id="hours" class="timer-number">00</span>
+                    <span class="timer-label">Годин</span>
+                </div>
+                <div class="timer-item">
+                    <span id="minutes" class="timer-number">00</span>
+                    <span class="timer-label">Хвилин</span>
+                </div>
+                <div class="timer-item">
+                    <span id="seconds" class="timer-number">00</span>
+                    <span class="timer-label">Секунд</span>
+                </div>
+            </div>
+
+            <p class="text-violet-soft text-xs mb-6">
+                Обрати дату:
+                <input type="date" id="datePicker" class="ml-1 px-2 py-1 rounded-lg border border-violet-300 text-violet-700 text-xs bg-white/80">
+            </p>
+
+            <button onclick="goToStep(2)" class="btn-romantic px-8 py-3.5 rounded-full text-xs font-semibold">
+                <i class="fas fa-gift mr-2"></i> Відкрити подарунок
+            </button>
+        </div>
+    </div>
+
+    <!-- КРОК 2: ПОДАРУНОК -->
+    <div id="step2" class="step-container step-hidden">
+        <div class="glass-box p-8 sm:p-12 max-w-lg w-full text-center">
+            <div class="text-xs uppercase tracking-widest text-violet-soft mb-3 font-semibold">✦ Є дещо для тебе ✦</div>
+            <h2 class="font-serif-title text-2xl sm:text-4xl font-bold text-violet-main mb-8">
+                Мамочко, це для тебе!
+            </h2>
+
+            <div onclick="openGift()" class="cursor-pointer my-8 inline-block gift-box-anim group">
+                <div class="relative w-36 h-36 sm:w-44 sm:h-44 mx-auto flex items-center justify-center bg-gradient-to-br from-violet-200 via-purple-200 to-violet-300 rounded-3xl border-2 border-violet-300 group-hover:border-violet-500 transition shadow-2xl">
+                    <i class="fas fa-gift text-6xl sm:text-7xl text-violet-600 group-hover:scale-110 transition duration-300"></i>
+                    <div class="absolute inset-0 rounded-3xl bg-violet-400/20 blur-xl group-hover:bg-violet-400/40 transition"></div>
+                </div>
+            </div>
+
+            <p class="text-xs text-violet-soft mb-6 opacity-80">
+                Обери, що хочеш відкрити 💜
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-3">
+                <button onclick="goToStep('2b')" class="btn-outline-violet px-6 py-3 rounded-full text-xs">
+                    <i class="fas fa-envelope mr-2"></i> Відкрити конверти
+                </button>
+                <button onclick="goToStep(3)" class="btn-romantic px-6 py-3 rounded-full text-xs">
+                    <i class="fas fa-envelope-open-text mr-2"></i> Розпакувати
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- КРОК 2.5: КОНВЕРТИ -->
+    <div id="step2b" class="step-container step-hidden">
+        <div class="max-w-5xl w-full my-auto py-8">
+            <div class="text-center mb-6">
+                <span class="text-xs uppercase tracking-widest text-violet-soft font-semibold">✦ 10 причин ✦</span>
+                <h2 class="font-serif-title text-3xl sm:text-5xl font-bold text-violet-main mt-1">
+                    Чому ти найкраща
+                </h2>
+                <p class="text-xs text-violet-soft mt-2 opacity-80">
+                    Натисни на кожен конвертик, щоб відкрити причину 💜
+                </p>
+            </div>
+
+            <div id="envelopeGrid" class="envelope-grid"></div>
+
+            <div class="text-center mt-6 flex flex-col sm:flex-row justify-center gap-3">
+                <button onclick="goToStep(2)" class="btn-outline-violet px-6 py-3 rounded-full text-xs">
+                    <i class="fas fa-arrow-left mr-2"></i> Назад
+                </button>
+                <button onclick="goToStep(3)" class="btn-romantic px-6 py-3 rounded-full text-xs">
+                    <i class="fas fa-envelope-open-text mr-2"></i> Розпакувати
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- КРОК 3: ЛИСТ -->
+    <div id="step3" class="step-container step-hidden">
+        <div class="glass-box p-6 sm:p-12 max-w-2xl w-full my-auto">
+            <div class="text-center mb-6">
+                <span class="text-xs uppercase tracking-widest text-violet-soft font-semibold">Лист для тебе</span>
+                <h2 class="font-serif-title text-3xl sm:text-5xl font-bold text-violet-main mt-1">
+                    З Днем Народження!
+                </h2>
+                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-violet-400 to-transparent mx-auto mt-3"></div>
+            </div>
+
+            <p id="letterHint" class="text-violet-soft text-xs text-center mb-3 opacity-70">
+                (текст пише для тебе... натисніть, щоб пропустити)
+            </p>
+
+            <div id="wishLetter"
+                 class="space-y-4 text-sm sm:text-base text-violet-900 leading-relaxed max-h-[50vh] overflow-y-auto pr-2 p-4 bg-white/60 rounded-2xl typing-cursor">
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-violet-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <button onclick="goToStep(2)" class="btn-outline-violet px-6 py-3 rounded-full text-xs">
+                    <i class="fas fa-arrow-left mr-2"></i> Назад
+                </button>
+                <button onclick="goToStep(4)" class="btn-romantic px-8 py-3 rounded-full text-xs font-semibold">
+                    Наші спогади <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- КРОК 4: ГАЛЕРЕЯ -->
+    <div id="step4" class="step-container step-hidden">
+        <div class="max-w-5xl w-full my-auto py-8">  
+          <div id="polaroidGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 px-2"></div>
+
+            <div class="text-center mt-10">
+                <button onclick="goToStep(5)" class="btn-romantic px-8 py-3.5 rounded-full text-xs font-semibold">
+                    Дивитися відео <i class="fas fa-play ml-2 text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- КРОК 5: ВІДЕО -->
+    <div id="step5" class="step-container step-hidden">
+        <div class="glass-box p-6 sm:p-10 max-w-3xl w-full text-center my-auto">
+            <span class="text-xs uppercase tracking-widest text-violet-soft font-semibold">Особливе відео</span>
+            <h2 class="font-serif-title text-3xl sm:text-4xl font-bold text-violet-main mb-6">
+                Мить для тебе
+            </h2>
+
+            <div class="relative bg-violet-50 rounded-2xl overflow-hidden border-2 border-violet-200 mb-8 shadow-xl">
+    <video controls class="w-full max-h-[450px] object-contain mx-auto" playsinline>
+        <source src="IMG_3081.mp4" type="video/mp4">
+        Ваш браузер не підтримує відео.
+    </video>
+</div>
+
+            <button onclick="goToStep(6)" class="btn-romantic px-8 py-3.5 rounded-full text-xs font-semibold">
+                Завершальне побажання <i class="fas fa-sparkles ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- КРОК 6: ФІНАЛ -->
+    <div id="step6" class="step-container step-hidden">
+        <div class="glass-box p-8 sm:p-12 max-w-xl w-full text-center my-auto">
+            <div class="w-20 h-20 bg-gradient-to-br from-violet-200 to-violet-400 rounded-full flex items-center justify-center mx-auto mb-6 text-violet-700 text-3xl shadow-lg">
+                <i class="fas fa-crown"></i>
+            </div>
+
+            <h2 class="font-serif-title text-3xl sm:text-5xl font-bold text-violet-main mb-4">
+                Завжди і назавжди
+            </h2>
+
+            <p class="text-sm sm:text-base text-violet-800 leading-relaxed mb-8">
+                Дякуємо тобі за все, Мамочко! Нехай цей рік буде сповнений міцного здоров'я, спокою, величезного щастя та здійснення мрій!
+            </p>
+
+            <div class="flex justify-center gap-2 text-3xl mb-6">
+                ✨ 💜 🌷 🥰 💜 ✨
+            </div>
+
+            <button onclick="restartApp()" class="btn-romantic px-8 py-3.5 rounded-full text-xs font-semibold">
+                <i class="fas fa-redo-alt mr-2"></i> Спочатку
+            </button>
+        </div>
+    </div>
+
+    <!-- Модальне вікно конверта -->
+    <div id="envelopeModal" class="envelope-modal" onclick="closeEnvelopeModal(event)">
+        <div class="envelope-modal-card" onclick="event.stopPropagation()">
+            <div class="envelope-modal-num" id="envelopeModalNum">1</div>
+            <h3 class="envelope-modal-title" id="envelopeModalTitle">Причина №1</h3>
+            <p class="envelope-modal-text" id="envelopeModalText">...</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-3">
+                <button onclick="closeEnvelopeModal(event)" class="btn-outline-violet px-6 py-2.5 rounded-full text-xs">
+                    <i class="fas fa-arrow-left mr-2"></i> Назад
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальне вікно фото -->
+    <div id="lightboxModal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4 backdrop-blur-md" onclick="closeLightboxModal()">
+        <div class="relative max-w-4xl max-h-[90vh]" onclick="event.stopPropagation()">
+            <button onclick="closeLightboxModal()" class="absolute -top-10 right-0 text-white text-2xl hover:text-violet-300 transition">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="lightboxModalImg" src="" alt="Фото" class="max-w-full max-h-[85vh] rounded-lg shadow-2xl">
+        </div>
+    </div>
+
+    <script>
+        // ============ 10 ПРИЧИН ============
+        const reasons = [
+            "Твоя усмішка здатна розігнати будь-які хмари. Коли ти усміхаєшся — світ стає теплішим, а всі негаразди зникають.",
+            "Твої обійми — найбезпечніше місце на землі. У них завжди спокійно, затишно і нічого не страшно.",
+            "Ти вмієш вислухати так, як ніхто інший. Твоє терпіння і мудрість допомагають знайти відповідь на будь-яке питання.",
+            "Твоє серце — бездонне джерело любові. Ти любиш щиро, глибоко і безмежно, не вимагаючи нічого взамін.",
+            "Ти завжди поруч, коли найважче. Твоя підтримка — це невидима сила, яка тримає нас на плаву.",
+            "Твої руки створили наш затишок. Смачні страви, теплі речі, лагідні дотики — у всьому відчувається твоя турбота.",
+            "Ти — приклад справжньої жінки. Сильна, ніжна, красива і водночас стійка, наче скеля.",
+            "Твоя віра в нас — безмежна. Ти завжди знаєш, що в нас усе вийде, навіть коли ми самі сумніваємось.",
+            "Твої поради — золото. У скрутну хвилину одне твоє слово здатне змінити все на краще.",
+            "Ти — наша мама, і цим усе сказано. Найкраща, найрідніша, найулюбленіша. Дякуємо тобі за те, що ти є! 💜"
+        ];
+
+        // ============ ТЕКСТ ПРИВІТАННЯ ============
+        const letterHTML = `
+            <p class="font-semibold text-violet-700 text-base sm:text-lg">
+                Рідна, люба, дорога, найкраща в світі Мамо! 💜
+            </p>
+            <p>
+                Вітаємо тебе з цим чарівним та особливим днем!
+                Для нас ти — цілий світ. Наш затишок, наша безпека, наша підтримка і найрідніша душа.
+                Твої обійми завжди лікують будь-яку втому, а твоя усмішка робить кожен день світлішим.
+                Дякуємо тобі за кожне миле слово, за твоє безмежне терпіння, за ніжність, турботу і тепло, якими ти зігріваєш нас щодня.
+            </p>
+            <p>
+                Для нас ти — справжнє джерело натхнення, краси та гармонії, і ми безмежно вдячні за те, що ти просто є у нас — така неймовірна, мудра і найкраща.
+                Бажаємо тобі міцного здоров'я, щоденної радості, невичерпної енергії та посмішок на обличчі.
+                Нехай кожна мить життя дарує відчуття щастя, мирне небо та приємні сюрпризи, а всі твої заповітні мрії здійснюються легко й легко!
+                Ти — серце нашої сім'ї та наш найдорожчий скарб.
+            </p>
+            <p class="italic text-violet-soft font-serif-title text-base sm:text-xl">
+                Ти — серце нашої сім'ї, наша підтримка та найдорожчий скарб!
+            </p>
+            <p class="text-right font-script text-2xl text-violet-soft mt-4">
+                З ювілеєм тебе, рідненька! Ми тебе безмежно любимо. 💜
+            </p>
+        `;
+
+        // ============ ФОТО ============
+        const initialPhotos = [
+            { url: 'IMG-39e2c0ec0ac56e4613a35d7d591beedb-V.jpg', title: 'Хрестини Танюшки 💕', rotate: '-3deg' },
+            { url: '1 (779).jpg', title: 'Випускний 2024 ✨', rotate: '2deg' },
+            { url: 'IMG-3ec487461a987b738dc538dbe7d4ce89-V.jpg', title: 'Твій день', rotate: '-2deg' },
+            { url: 'IMG_20231224_191231.jpg', title: 'Затишні свята в колі найрідніших 🎄✨', rotate: '4deg' },
+            { url: 'IMG_20230128_172326_HDR.jpg', title: 'Мамина маленька принцеса 🌸', rotate: '-4deg' },
+            { url: 'IMG-272ec2235e4f2d517ca1bd87da0fbf50-V.jpg', title: 'Найкращі моменти разом 💖', rotate: '3deg' },
+            { url: 'IMG-308954387a71f1681991c2dd713c566e-V.jpg', title: 'З принцесою', rotate: '-1deg' },
+            { url: 'IMG_20260421_205052.png', title: 'Твоя турбота з перших днів 👶💕', rotate: '2deg' },
+            { url: '1745166365094.jpg', title: 'Святковий день', rotate: '-3deg' }
+        ];
+
+        let currentStep = 1;
+		let userPhotos = []; 
+		let openedEnvelopes = [];
+        // ============ НАВІГАЦІЯ ============
+        function goToStep(stepNum) {
+            document.querySelectorAll('.step-container').forEach(el => el.classList.add('step-hidden'));
+            const targetStep = document.getElementById(`step${stepNum}`);
+            if (targetStep) {
+                targetStep.classList.remove('step-hidden');
+                currentStep = stepNum;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            if (stepNum === 3) startTypingLetter();
+            if (stepNum === 3 || stepNum === 6) fireConfetti();
+        }
+
+        function openGift() {
+            fireConfetti();
+            setTimeout(() => goToStep('2b'), 600);
+        }
+
+        function restartApp() {
+            goToStep(1);
+        }
+
+        // ============ КОНВЕРТИ ============
+        function renderEnvelopes() {
+            const grid = document.getElementById('envelopeGrid');
+            grid.innerHTML = '';
+
+            reasons.forEach((reason, i) => {
+                const isOpened = openedEnvelopes.includes(i);
+                const env = document.createElement('div');
+                env.className = 'envelope' + (isOpened ? ' opened' : '');
+                env.innerHTML = `
+                    <div class="envelope-num">${i + 1}</div>
+                    <div class="envelope-icon"><i class="fas fa-envelope${isOpened ? '-open' : ''}"></i></div>
+                    <div class="envelope-text">${isOpened ? 'Відкрито' : 'Причина'}</div>
+                `;
+                env.addEventListener('click', () => openEnvelope(i));
+                grid.appendChild(env);
+            });
+        }
+
+        function openEnvelope(index) {
+            if (!openedEnvelopes.includes(index)) {
+                openedEnvelopes.push(index);
+            }
+            renderEnvelopes();
+
+            document.getElementById('envelopeModalNum').textContent = index + 1;
+            document.getElementById('envelopeModalTitle').textContent = `Причина №${index + 1}`;
+            document.getElementById('envelopeModalText').textContent = reasons[index];
+
+            const modal = document.getElementById('envelopeModal');
+            modal.classList.add('active');
+            fireConfetti();
+        }
+
+        function closeEnvelopeModal(event) {
+            if (event) event.stopPropagation();
+            document.getElementById('envelopeModal').classList.remove('active');
+        }
+
+        // ============ ЕФЕКТ ДРУКУВАННЯ (завжди заново) ============
+        let typingTimer = null;
+        let typingActive = false;
+
+        function prepareTypingNodes(html) {
+            const container = document.createElement('div');
+            container.innerHTML = html;
+            const nodes = [];
+            container.childNodes.forEach(child => {
+                if (child.nodeType === 1) {
+                    nodes.push({ el: child.cloneNode(false), text: child.textContent });
+                } else if (child.nodeType === 3 && child.textContent.trim()) {
+                    nodes.push({ el: null, text: child.textContent });
+                }
+            });
+            return nodes;
+        }
+
+        function startTypingLetter() {
+            const letterEl = document.getElementById('wishLetter');
+            const hint = document.getElementById('letterHint');
+
+            // зупинити попередній друк, якщо був
+            clearInterval(typingTimer);
+            typingActive = false;
+
+            // завжди друкуємо заново
+            letterEl.innerHTML = '';
+            letterEl.dataset.done = '0';
+            letterEl.setAttribute('contenteditable', 'false');
+            letterEl.classList.add('typing-cursor');
+            hint.textContent = '(текст пише для тебе... натисніть, щоб пропустити)';
+
+            const nodes = prepareTypingNodes(letterHTML);
+            let nodeIndex = 0;
+            let charIndex = 0;
+            let currentEl = null;
+
+            typingActive = true;
+
+            if (nodes.length > 0) {
+                currentEl = nodes[0].el ? nodes[0].el.cloneNode(false) : document.createElement('p');
+                letterEl.appendChild(currentEl);
+            }
+
+            typingTimer = setInterval(() => {
+                if (!typingActive) return;
+
+                if (nodeIndex >= nodes.length) {
+                    finishTyping();
+                    return;
+                }
+
+                const node = nodes[nodeIndex];
+                const text = node.text;
+
+                if (charIndex < text.length) {
+                    currentEl.textContent += text.charAt(charIndex);
+                    charIndex++;
+                    letterEl.scrollTop = letterEl.scrollHeight;
+                } else {
+                    nodeIndex++;
+                    charIndex = 0;
+                    if (nodeIndex < nodes.length) {
+                        const next = nodes[nodeIndex];
+                        currentEl = next.el ? next.el.cloneNode(false) : document.createElement('p');
+                        letterEl.appendChild(currentEl);
+                    }
+                }
+            }, 28);
+        }
+
+        function finishTyping() {
+            clearInterval(typingTimer);
+            typingActive = false;
+            const letterEl = document.getElementById('wishLetter');
+            const hint = document.getElementById('letterHint');
+            letterEl.innerHTML = letterHTML;
+            letterEl.dataset.done = '1';
+            letterEl.classList.remove('typing-cursor');
+            letterEl.setAttribute('contenteditable', 'true');
+            hint.textContent = '(натисніть, щоб відредагувати)';
+        }
+
+        // клік по листу — пропустити анімацію
+        document.getElementById('wishLetter').addEventListener('click', () => {
+            if (typingActive) finishTyping();
+        });
+
+        // ============ ПОЛЯРОЇДИ ============
+        function renderPolaroids() {
+            const grid = document.getElementById('polaroidGrid');
+            grid.innerHTML = '';
+            const allPhotos = [...initialPhotos, ...userPhotos];
+
+            allPhotos.forEach((photo, index) => {
+                const col = document.createElement('div');
+                col.className = 'polaroid cursor-pointer transform';
+                col.style.transform = `rotate(${photo.rotate})`;
+                col.onclick = (e) => {
+                    if (e.target.closest('.delete-btn')) return;
+                    openLightboxModal(photo.url);
+                };
+
+                const isUserPhoto = index >= initialPhotos.length;
+                const deleteBtn = isUserPhoto ? `<button class="delete-btn" title="Видалити">✕</button>` : '';
+
+                col.innerHTML = `
+                    ${deleteBtn}
+                    <div class="h-64 sm:h-72 w-full overflow-hidden bg-violet-50 mb-3 rounded-sm">
+                        <img src="${photo.url}" alt="${photo.title}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x800/ede9fe/8b5cf6?text=Фото'">
+                    </div>
+                    <div class="text-center">
+                        <p class="font-script text-xl sm:text-2xl text-violet-600 leading-none">${photo.title}</p>
+                    </div>
+                `;
+
+                if (isUserPhoto) {
+                    col.querySelector('.delete-btn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const realIndex = index - initialPhotos.length;
+                        userPhotos.splice(realIndex, 1);
+                        localStorage.setItem('userPhotos', JSON.stringify(userPhotos));
+                        renderPolaroids();
+                    });
+                }
+
+                grid.appendChild(col);
+            });
+        }
+
+        // ============ МОДАЛЬНЕ ВІКНО ФОТО ============
+        function openLightboxModal(url) {
+            document.getElementById('lightboxModalImg').src = url;
+            document.getElementById('lightboxModal').classList.remove('hidden');
+        }
+        function closeLightboxModal() {
+            document.getElementById('lightboxModal').classList.add('hidden');
+        }
+
+        // ============ МУЗИКА ============
+        function toggleAudio() {
+            const audio = document.getElementById('bgMusic');
+            const icon = document.getElementById('audioIcon');
+            const text = document.getElementById('audioText');
+            if (audio.paused) {
+                audio.play().then(() => {
+                    icon.className = "fas fa-pause text-violet-500";
+                    text.innerText = "Пауза";
+                }).catch(err => console.log(err));
+            } else {
+                audio.pause();
+                icon.className = "fas fa-music text-violet-500";
+                text.innerText = "Музика";
+            }
+        }
+
+        // ============ КОНФЕТІ ============
+        function fireConfetti() {
+            const count = 200;
+            const defaults = { origin: { y: 0.7 } };
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+            fire(0.25, { spread: 26, startVelocity: 55, colors: ['#a78bfa', '#c4b5fd'] });
+            fire(0.2, { spread: 60, colors: ['#ddd6fe', '#ffffff'] });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8, colors: ['#8b5cf6', '#ede9fe'] });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, colors: ['#c4b5fd'] });
+            fire(0.1, { spread: 120, startVelocity: 45, colors: ['#a78bfa', '#ffffff'] });
+        }
+
+        // ============ ТАЙМЕР ============
+        const datePicker = document.getElementById('datePicker');
+        const defaultDate = new Date();
+        defaultDate.setDate(defaultDate.getDate() + 7);
+        datePicker.valueAsDate = defaultDate;
+
+        const savedDate = localStorage.getItem('celebrationDate');
+        if (savedDate) datePicker.value = savedDate;
+
+        function startCountdown() {
+            const target = new Date(datePicker.value + 'T00:00:00').getTime();
+
+            setInterval(() => {
+                const now = new Date().getTime();
+                const distance = target - now;
+
+                if (distance > 0) {
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    document.getElementById('days').innerText = String(days).padStart(2, '0');
+                    document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+                    document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+                    document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+                } else {
+                    ['days','hours','minutes','seconds'].forEach(id => document.getElementById(id).innerText = '00');
+                }
+            }, 1000);
+        }
+
+        datePicker.addEventListener('change', () => {
+            localStorage.setItem('celebrationDate', datePicker.value);
+        });
+
+        // ============ КУЛЬКИ НА ФОНІ ============
+        function initBubbles() {
+            const canvas = document.getElementById('bubbleCanvas');
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            const bubbles = [];
+            const bubbleCount = 38;
+
+            for (let i = 0; i < bubbleCount; i++) {
+                const radius = Math.random() * 22 + 6;
+                bubbles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: radius,
+                    speedY: -(Math.random() * 0.5 + 0.15),
+                    speedX: (Math.random() - 0.5) * 0.3,
+                    alpha: Math.random() * 0.35 + 0.15,
+                    baseAlpha: Math.random() * 0.35 + 0.15,
+                    hue: Math.random() > 0.5 ? 265 : 280,
+                    wobble: Math.random() * Math.PI * 2,
+                    wobbleSpeed: Math.random() * 0.02 + 0.005,
+                    twinklePhase: Math.random() * Math.PI * 2,
+                    twinkleSpeed: Math.random() * 0.03 + 0.01
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                bubbles.forEach(b => {
+                    b.y += b.speedY;
+                    b.wobble += b.wobbleSpeed;
+                    b.x += b.speedX + Math.sin(b.wobble) * 0.4;
+
+                    b.twinklePhase += b.twinkleSpeed;
+                    b.alpha = b.baseAlpha * (0.55 + 0.45 * Math.abs(Math.sin(b.twinklePhase)));
+
+                    if (b.y + b.radius < 0) {
+                        b.y = canvas.height + b.radius;
+                        b.x = Math.random() * canvas.width;
+                    }
+                    if (b.x < -b.radius) b.x = canvas.width + b.radius;
+                    if (b.x > canvas.width + b.radius) b.x = -b.radius;
+
+                    const gradient = ctx.createRadialGradient(
+                        b.x - b.radius * 0.3, b.y - b.radius * 0.3, b.radius * 0.1,
+                        b.x, b.y, b.radius
+                    );
+                    gradient.addColorStop(0, `hsla(${b.hue}, 90%, 92%, ${b.alpha + 0.15})`);
+                    gradient.addColorStop(0.6, `hsla(${b.hue}, 85%, 82%, ${b.alpha})`);
+                    gradient.addColorStop(1, `hsla(${b.hue}, 80%, 75%, 0)`);
+
+                    ctx.beginPath();
+                    ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.arc(b.x - b.radius * 0.35, b.y - b.radius * 0.35, b.radius * 0.18, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${b.alpha + 0.2})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        // ============ СТАРТ ============
+        window.onload = function() {
+            renderPolaroids();
+            renderEnvelopes();
+            startCountdown();
+            initBubbles();
+        };
+    </script>
+</body>
+</html>
